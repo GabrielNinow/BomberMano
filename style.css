@@ -1,0 +1,31 @@
+#game {
+    display: grid;
+    grid-template-columns: repeat(13, 40px);
+    grid-template-rows: repeat(11, 40px);
+    gap: 1px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .cell {
+    width: 40px;
+    height: 40px;
+    background-color: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .wall {
+    background-color: #333;
+  }
+  .player {
+    background-color: blue;
+  }
+  .bomb {
+    background-color: black;
+  }
+  .explosion {
+    background-color: red;
+  }
+  
