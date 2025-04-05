@@ -16,6 +16,7 @@ constructor(rows,cols,isDebug){
 
 createGrid() {
   let counter = 0;
+  const random = Math.random;
 
   for (let row = 0; row < this.rows; row++) {
     const rowArray = [];
@@ -24,8 +25,13 @@ createGrid() {
       const cell = document.createElement('div');
       cell.classList.add('cell');
 
+      //setting unbreakable walls
       if (row === 0 || row === this.rows - 1 || col === 0 || col === this.cols - 1 || row % 2 === 0 && col % 2 === 0) {
         cell.classList.add('wall');
+      }
+
+      if(!cell.classList.contains('wall') && random() < 0.7){
+        cell.classList.add('breakable-wall');
       }
 
       if (this.isDebug) {
@@ -40,7 +46,20 @@ createGrid() {
     this.cells.push(rowArray);
   }
 
+  this.createStartArea();
   this.setPlayer();
+}
+
+createStartArea(){
+    const locations = [
+        {x:1, y:1},
+        {x:1, y:2},
+        {x:2, y:1},
+    ];
+
+    for(let i=0; i<locations.length; i++){
+        this.cells[locations[i].y][locations[i].x].classList.remove('wall','breakable-wall');
+    }
 }
 
 //player actions
@@ -53,7 +72,7 @@ removePlayer(){
 }
 
 isWalkable(x, y) {
-    return !this.cells[y][x].classList.contains('wall')
+    return !this.cells[y][x].classList.contains('wall') && !this.cells[y][x].classList.contains('breakable-wall')
 }
 
 //bomb actions
@@ -74,7 +93,7 @@ setBomb(){
 
 setExplosion(x,y){
     const locations = [{x:x, y:y}]
-    
+
     for(let i = 1; i <= this.player.bomb.size; i++){
         if(this.isWalkable(x+i, y)) locations.push({x:x+i, y:y})
         else break;

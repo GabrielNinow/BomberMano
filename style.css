@@ -28,4 +28,7 @@
   .explosion {
     background-color: red;
   }
+  .breakable-wall{
+    background-color: rgb(73, 78, 83);
+  }
   
