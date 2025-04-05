@@ -20,13 +20,19 @@
     background-color: #333;
   }
   .player {
-    background-color: blue;
+    background-image: url('./Img/bomberman.svg');
+    background-size: cover;
+    background-position: center;
   }
   .bomb {
-    background-color: black;
+    background-image: url('./Img/bomb.svg');
+    background-size: cover;
+    background-position: center;
   }
   .explosion {
-    background-color: red;
+    background-image: url('./Img/fire.svg');
+    background-size: cover;
+    background-position: center;
   }
   .breakable-wall{
     background-color: rgb(73, 78, 83);

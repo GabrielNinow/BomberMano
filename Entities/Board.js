@@ -113,9 +113,24 @@ setExplosion(x,y){
 
     for(let i = 0; i < locations.length; i++){
         if(this.cells[locations[i].y][locations[i].x]){
-            this.cells[locations[i].y][locations[i].x].classList.add('explosion')
+            this.cells[locations[i].y][locations[i].x].classList.add('explosion');
             setTimeout(() => {
-                this.cells[locations[i].y][locations[i].x].classList.remove('explosion')
+                this.cells[locations[i].y][locations[i].x].classList.remove('explosion');
+                const directions = [
+                    {x: 1, y: 0},
+                    {x: -1, y: 0},
+                    {x: 0, y: 1},
+                    {x: 0, y: -1}
+                ];
+                
+                directions.forEach(dir => {
+                    const newX = locations[i].x + dir.x;
+                    const newY = locations[i].y + dir.y;
+                    if(this.cells[newY] && this.cells[newY][newX] && 
+                       this.cells[newY][newX].classList.contains('breakable-wall')){
+                        this.cells[newY][newX].classList.remove('breakable-wall');
+                    }
+                });
             }, 1000);
         }
     }
