@@ -56,6 +56,52 @@ isWalkable(x, y) {
     return !this.cells[y][x].classList.contains('wall')
 }
 
+//bomb actions
+setBomb(){
+    const bombX = this.player.x;
+    const bombY = this.player.y;
+
+    this.cells[this.player.y][this.player.x].classList.add('bomb');
+    
+    setTimeout(() => {
+        this.cells[bombY][bombX].classList.remove('bomb');
+    }, 2000);
+
+    setTimeout(() => {
+        this.setExplosion(bombX,bombY)
+    }, 2000);
+}
+
+setExplosion(x,y){
+    const locations = [{x:x, y:y}]
+    
+    for(let i = 1; i <= this.player.bomb.size; i++){
+        if(this.isWalkable(x+i, y)) locations.push({x:x+i, y:y})
+        else break;
+    }
+    for(let i = 1; i <= this.player.bomb.size; i++){
+        if(this.isWalkable(x-i, y)) locations.push({x:x-i, y:y})
+        else break;
+    }
+    for(let i = 1; i <= this.player.bomb.size; i++){
+        if(this.isWalkable(x, y+i)) locations.push({x:x, y:y+i})
+        else break;
+    }
+    for(let i = 1; i <= this.player.bomb.size; i++){
+        if(this.isWalkable(x, y-i)) locations.push({x:x, y:y-i})
+        else break;
+    }
+
+    for(let i = 0; i < locations.length; i++){
+        if(this.cells[locations[i].y][locations[i].x]){
+            this.cells[locations[i].y][locations[i].x].classList.add('explosion')
+            setTimeout(() => {
+                this.cells[locations[i].y][locations[i].x].classList.remove('explosion')
+            }, 1000);
+        }
+    }
+}
+
 handleKeyPress(e) {
     if(e.key != ' '){
         if(e.key === 'ArrowLeft' && this.isWalkable(this.player.x -1, this.player.y)){
@@ -75,6 +121,10 @@ handleKeyPress(e) {
             this.player.move(0,+1);
         }
         this.setPlayer();
+    }
+
+    if(e.key === ' '){
+        this.setBomb();
     }
 }
 
